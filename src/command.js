@@ -1,6 +1,8 @@
 import yargs from 'yargs'
 import { hideBin } from 'yargs/helpers'
-import { newNote } from './notes.js'
+import { newNote, getAllNotes } from './notes.js'
+import listNotes from './utils.js'
+
 
 yargs(hideBin(process.argv))
   .command('new <note>', 'Create a new note', yargs => {
@@ -19,6 +21,12 @@ yargs(hideBin(process.argv))
     type: 'string',
     description: 'tags to add to the note'
   })
+  .command('all', 'get all notes', () => {}, async(argv) => {
+    const notes = await getAllNotes()
+    listNotes(notes)
+
+  })
+
   .demandCommand(1)
   .parse()
 
