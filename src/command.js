@@ -1,6 +1,6 @@
 import yargs from 'yargs'
 import { hideBin } from 'yargs/helpers'
-import { newNote, getAllNotes } from './notes.js'
+import { newNote, getAllNotes, findNotes, removeNote, removeAllNotes } from './notes.js'
 import listNotes from './utils.js'
 
 
@@ -26,7 +26,28 @@ yargs(hideBin(process.argv))
     listNotes(notes)
 
   })
-
+  .command('find <filter>', 'get matching notes', yargs => {
+    return yargs.positional('filter', {
+      describe: 'The search term to filter notes by, will be applied to the content',
+      type: 'string'
+    })
+  }, async (argv) => {
+    const matches = await findNotes(argv.filter)
+    listNotes(matches)
+  })
+  .command('remove <id>', 'remove a note by id', yargs => {
+    return yargs.positional('id', {
+      type: 'number',
+      description: 'The id of the note you want to remove'
+    })
+  }, async (argv) => {
+    const id = await removeNote(argv.id)
+    console.log(id)
+  })
+  .command('clean', 'remove all notes', () => {}, async (argv) => {
+    await removeAllNotes()
+    console.log('db reseted!')
+  })
   .demandCommand(1)
   .parse()
 
