@@ -11,5 +11,5 @@ const writeFile = async () => {
     await fs.writeFile(newFile, `console.log('yoooo!')`)
 }
 
-// readPjson()
-writeFile()
+readPjson()
+// writeFile()
