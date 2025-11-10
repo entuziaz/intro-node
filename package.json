@@ -10,9 +10,12 @@
     "note": "./index.js"
   },
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "jest"
   },
   "dependencies": {
     "yargs": "^18.0.0"
+  },
+  "devDependencies": {
+    "jest": "^30.2.0"
   }
 }
