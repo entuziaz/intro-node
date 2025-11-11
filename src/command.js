@@ -2,6 +2,7 @@ import yargs from 'yargs'
 import { hideBin } from 'yargs/helpers'
 import { newNote, getAllNotes, findNotes, removeNote, removeAllNotes } from './notes.js'
 import listNotes from './utils.js'
+import { start } from './server.js'
 
 
 yargs(hideBin(process.argv))
@@ -44,6 +45,18 @@ yargs(hideBin(process.argv))
     const id = await removeNote(argv.id)
     console.log(id)
   })
+  .command('web [port]', 'launch website to see notes', yargs => {
+    return yargs
+      .positional('port', {
+        describe: 'port to bind on',
+        default: 5000,
+        type: 'number'
+      })
+  }, async (argv) => {
+    const notes = await getAllNotes()
+    start(notes, argv.port)
+  })
+
   .command('clean', 'remove all notes', () => {}, async (argv) => {
     await removeAllNotes()
     console.log('db reseted!')
